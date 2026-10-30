@@ -1,0 +1,1416 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>StackNetwork Black Market</title>
+
+<style>
+:root{
+--bg:#080808;
+--panel:#151515;
+--panel2:#101010;
+--red:#e53935;
+--gold:#ffbf47;
+--text:#f5f5f5;
+--muted:#aaa;
+--border:rgba(255,70,70,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Arial,sans-serif;
+background:radial-gradient(ellipse at 50% 0%,#351010,transparent 48%),var(--bg);
+color:var(--text);min-height:100vh
+}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{
+position:sticky;top:0;z-index:10;
+background:#080808ed;border-bottom:1px solid var(--border);
+backdrop-filter:blur(15px)
+}
+nav{
+max-width:1200px;margin:auto;padding:18px 22px;
+display:flex;justify-content:space-between;
+align-items:center;gap:18px;flex-wrap:wrap
+}
+.brand{font-size:22px;font-weight:900;letter-spacing:2px}
+.brand span{color:var(--red)}
+.navlinks{
+display:flex;align-items:center;gap:15px;
+flex-wrap:wrap;color:var(--muted);font-size:14px
+}
+.discord{background:#5865f2;color:white;padding:10px 14px;border-radius:8px}
+.hero{text-align:center;padding:75px 20px 45px;max-width:950px;margin:auto}
+.eyebrow{
+display:inline-block;color:var(--gold);
+border:1px solid var(--border);background:#e5393512;
+border-radius:30px;padding:9px 16px;font-size:11px;
+letter-spacing:2px;margin-bottom:20px
+}
+h1{font-size:clamp(38px,7vw,68px);font-weight:900;line-height:1.1}
+h1 span{
+background:linear-gradient(90deg,#ff3434,#ffbd54);
+color:transparent;background-clip:text
+}
+.hero p{color:var(--muted);line-height:1.7;max-width:650px;margin:18px auto}
+.server{
+display:inline-flex;gap:12px;align-items:center;flex-wrap:wrap;
+margin-top:16px;background:var(--panel);
+border:1px solid var(--border);padding:12px 15px;border-radius:10px
+}
+.small,.secondary{
+background:#252020;color:var(--gold);
+border:1px solid var(--border);padding:9px 12px;border-radius:8px
+}
+main{max-width:1200px;margin:auto;padding:20px 22px 60px}
+h2{font-size:26px;margin:12px 0 8px}
+.sub{color:var(--muted);line-height:1.7;margin-bottom:20px}
+.toolbar{display:grid;grid-template-columns:1fr 210px;gap:10px;margin-bottom:16px}
+input,select{
+background:#080808;color:white;border:1px solid var(--border);
+padding:12px;border-radius:9px;width:100%;min-width:0
+}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0 24px}
+.cat{
+background:var(--panel);border:1px solid var(--border);
+border-radius:9px;padding:11px 15px;color:var(--muted)
+}
+.cat.active,.cat:hover{
+background:linear-gradient(110deg,#8b1515,#4d1111);color:white
+}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{
+background:linear-gradient(145deg,#1b1717,#101010);
+border:1px solid var(--border);border-radius:15px;padding:21px;
+display:flex;flex-direction:column;min-height:260px;
+transition:.2s
+}
+.card:hover{transform:translateY(-4px);border-color:#e5393580}
+.icon{
+width:55px;height:55px;display:grid;place-items:center;
+font-size:30px;background:#e5393512;
+border:1px solid var(--border);border-radius:12px;margin-bottom:16px
+}
+.tag{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.card h3{font-size:20px;margin-bottom:8px}
+.card p,.panel p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:15px}
+.bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price{font-size:22px;font-weight:900;color:var(--gold)}
+.primary{
+border:0;border-radius:8px;
+background:linear-gradient(100deg,#e53935,#ff9d42);
+color:#160606;font-weight:bold;padding:11px 13px
+}
+.panel{
+background:var(--panel);border:1px solid var(--border);
+border-radius:13px;padding:20px
+}
+.cartrow{
+display:flex;justify-content:space-between;align-items:center;
+gap:12px;padding:13px;margin-bottom:9px;
+background:var(--panel2);border:1px solid var(--border);
+border-radius:10px;flex-wrap:wrap
+}
+.cartrow p{color:var(--muted);font-size:13px;margin-top:5px}
+.cartbuttons{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.cartbuttons button{
+padding:7px 10px;background:#292020;
+border:1px solid var(--border);color:white;border-radius:7px
+}
+.total{font-size:26px;font-weight:900;color:var(--gold);margin:12px 0}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.row button{flex:1}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:35px}
+.info .panel{margin:0}
+.info h3{margin-bottom:10px}
+.notice{
+margin-top:22px;padding:14px;border:1px solid #ffbf4740;
+background:#ffbf470b;border-radius:10px;color:#f8d99b;
+font-size:13px;line-height:1.7
+}
+.adminform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.adminform label{color:var(--muted);font-size:12px}
+.adminform input,.adminform select{margin-top:6px}
+.adminlist{display:grid;gap:8px;margin-top:15px}
+.adminitem{
+display:flex;align-items:center;justify-content:space-between;
+gap:10px;flex-wrap:wrap;background:var(--panel2);
+padding:12px;border-radius:8px
+}
+.admin-login{
+max-width:420px;margin:20px auto;padding:25px;
+background:var(--panel);border:1px solid var(--border);
+border-radius:14px;text-align:center
+}
+.admin-login h3{margin-bottom:15px}
+.admin-login input{margin:12px 0}
+.logout-btn{
+background:#a83245;color:white;padding:10px 15px;
+border:0;border-radius:8px;margin-bottom:15px
+}
+.pagination{
+display:flex;justify-content:center;align-items:center;
+gap:10px;flex-wrap:wrap;margin:22px 0
+}
+.pagination button{
+padding:9px 13px;background:#252020;color:white;
+border:1px solid var(--border);border-radius:8px
+}
+.pagination button:disabled{opacity:.35;cursor:not-allowed}
+.pagination span{color:var(--muted);font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.status{font-size:13px;color:var(--muted);margin:12px 0}
+footer{
+border-top:1px solid var(--border);text-align:center;
+padding:26px;color:var(--muted);font-size:13px;line-height:1.8
+}
+
+/* HIDE ADMIN FROM NORMAL VISITORS */
+#admin{display:none!important}
+body.admin-mode #admin{display:block!important}
+
+@media(max-width:850px){
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.info{grid-template-columns:1fr}
+.two{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+nav{justify-content:center}
+.navlinks{justify-content:center}
+.grid{grid-template-columns:1fr}
+.toolbar{grid-template-columns:1fr}
+.adminform{grid-template-columns:1fr}
+main{padding-left:14px;padding-right:14px}
+.hero{padding-top:45px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+<a class="brand" href="#home">BLACK<span> MARKET</span></a>
+<div class="navlinks">
+<a href="#home">Home</a>
+<a href="#shop">Black Market</a>
+<a href="#cart">Cart (<span id="count">0</span>)</a>
+<a class="discord" href="https://discord.gg/7pnknggESA" target="_blank" rel="noopener">Discord</a>
+</div>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div class="eyebrow">⚠ STACKNETWORK UNDERGROUND BLACK MARKET ⚠</div>
+<h1>WELCOME TO THE<br><span>BLACK MARKET.</span></h1>
+<p>Discover rare weapons, powerful tools, exclusive items and expensive underground deals. Only for the richest players.</p>
+<div class="server">
+<strong>stacknetwork.play-mc.fun</strong>
+<button class="small" onclick="copyText('stacknetwork.play-mc.fun')">COPY IP</button>
+</div>
+</section>
+
+<main>
+
+<section id="shop">
+<h2>🩸 Black Market Collection</h2>
+<p class="sub">Exclusive Minecraft items and server upgrades. All prices are in Indian rupees.</p>
+
+<div class="toolbar">
+<input id="search" type="search" placeholder="Search Black Market items...">
+<select id="sort">
+<option value="featured">Featured products</option>
+<option value="low">Price: low to high</option>
+<option value="high">Price: high to low</option>
+<option value="az">Name: A to Z</option>
+</select>
+</div>
+
+<div class="categories" id="categoryButtons"></div>
+<p class="status" id="minecraftLoadStatus">Preparing Minecraft catalogue...</p>
+<div class="grid" id="products"></div>
+<div class="pagination" id="shopPagination"></div>
+
+<div class="notice">
+<strong>Black Market notice:</strong> This is a demo store. No real payment is taken and no item is delivered automatically. Prices are sample catalogue prices.
+</div>
+</section>
+
+<section id="cart" style="margin-top:42px">
+<h2>🛒 Your Shopping Cart</h2>
+<p class="sub">Review your underground deals before placing an order.</p>
+
+<div class="two">
+<div class="panel">
+<div id="cartItems"></div>
+</div>
+
+<div class="panel">
+<h3>Order Summary</h3>
+<p id="summary">Your cart is empty.</p>
+<div class="total" id="total">₹0</div>
+
+<label for="username">Minecraft username</label>
+<input id="username" maxlength="16" placeholder="Enter username">
+
+<div class="row">
+<button class="primary" onclick="checkout()">PLACE ORDER & DOWNLOAD TXT</button>
+<button class="secondary" onclick="exportCart()">Export Cart JSON</button>
+</div>
+<p id="message" style="margin-top:12px"></p>
+</div>
+</div>
+</section>
+
+<section class="info">
+<div class="panel">
+<h3>👑 Premium Ranks</h3>
+<p>Mythic, Legend, Champion, Pathfinder, Trailblazer, Adventurer and Explorer.</p>
+</div>
+<div class="panel">
+<h3>💀 Rare Deals</h3>
+<p>Browse exclusive crates, keys, tools, weapons and special items.</p>
+</div>
+<div class="panel">
+<h3>💬 Need Help?</h3>
+<p>Join the StackNetwork Discord community.</p>
+<a href="https://discord.gg/7pnknggESA" style="color:var(--gold)">Join Discord →</a>
+</div>
+</section>
+
+<!-- HIDDEN ADMIN PANEL -->
+<section id="admin" style="margin-top:42px">
+<h2>Black Market Administration</h2>
+<p class="sub">Administrator access required to manage the store.</p>
+
+<div class="admin-login" id="adminLogin">
+<h3>🔐 Admin Login</h3>
+<p>Administrator access required.</p>
+<input type="password" id="adminPassword" placeholder="Enter Admin Password">
+<button class="primary" onclick="adminLogin()">LOGIN</button>
+<p id="loginMessage" style="margin-top:12px"></p>
+</div>
+
+<div id="adminEditor" style="display:none">
+<h3>Welcome, Administrator!</h3>
+<button class="logout-btn" onclick="adminLogout()">LOGOUT</button>
+
+<div class="panel">
+<h3 id="formTitle">Add a Product</h3>
+
+<form id="productForm" class="adminform">
+<label>Product Name
+<input id="pName" required maxlength="60" placeholder="Example: Netherite Pickaxe">
+</label>
+
+<label>Category
+<select id="pCategory"></select>
+</label>
+
+<label>Price (₹)
+<input id="pPrice" required type="number" min="0" max="100000000" step="1">
+</label>
+
+<label>Icon / Emoji
+<input id="pIcon" maxlength="8" placeholder="💎">
+</label>
+
+<label>Product Tag
+<input id="pTag" maxlength="40" placeholder="Black Market Exclusive">
+</label>
+
+<label>Description
+<input id="pDesc" maxlength="180" placeholder="Product description">
+</label>
+
+<div class="row" style="grid-column:1/-1">
+<button class="primary" id="saveProduct">Add Product</button>
+<button type="button" class="secondary" onclick="cancelEdit()">Cancel Edit</button>
+<button type="button" class="secondary" onclick="exportProducts()">Export Store Code</button>
+<button type="button" class="secondary" onclick="document.getElementById('importFile').click()">Upload Store Code</button>
+<button type="button" class="secondary" onclick="resetProducts()">Reset Defaults</button>
+<input id="importFile" type="file" accept=".json,application/json" hidden>
+</div>
+</form>
+
+<p id="adminMessage" style="margin-top:12px"></p>
+
+<hr style="border-color:var(--border);margin:22px 0">
+
+<h3>Product Management</h3>
+<p id="productCount"></p>
+<input id="adminSearch" type="search" placeholder="Search admin products..." style="margin-top:12px">
+<div id="adminList" class="adminlist"></div>
+<div class="pagination" id="adminPagination"></div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<strong>STACKNETWORK BLACK MARKET</strong><br>
+Minecraft server store preview<br>
+Not affiliated with Mojang or Microsoft.<br>
+© <span id="year"></span> StackNetwork. All rights reserved.
+</footer>
+
+<script>
+// ======================================
+// SETTINGS
+// ======================================
+
+const ADMIN_PASSWORD = "mirash333";
+const MAX_PRODUCTS = 10000;
+const MAX_PRICE = 100000000;
+const PAGE_SIZE = 30;
+
+const adminMode =
+new URLSearchParams(location.search).get("admin") === "1";
+
+if(adminMode){
+document.body.classList.add("admin-mode");
+}
+
+const CATEGORIES = [
+"Ranks","Crates","Keys","Special Items","Blocks",
+"Ores & Materials","Tools","Weapons","Armor","Food",
+"Farming","Potions","Brewing","Redstone","Transportation",
+"Spawn Eggs","Mob Drops","Enchanting","Utility","Decoration",
+"Miscellaneous"
+];
+
+// ======================================
+// DEFAULT PRODUCTS
+// ======================================
+
+const DEFAULTS = [
+["Mythic","Ranks",50000000,"👑","BLACK MARKET EXCLUSIVE","The ultimate underground rank."],
+["Legend","Ranks",30000000,"💎","LEGENDARY","A legendary premium rank."],
+["Champion","Ranks",20000000,"🛡️","ELITE","A powerful exclusive rank."],
+["Pathfinder","Ranks",15000000,"🧭","PREMIUM","For experienced players."],
+["Trailblazer","Ranks",10000000,"🔥","RARE","Stand out from everyone."],
+["Adventurer","Ranks",5000000,"⚔️","SPECIAL","Your next adventure."],
+["Explorer","Ranks",2500000,"🗺️","ENTRY PREMIUM","Start your journey."],
+
+["Vote Crate","Crates",1000000,"📦","RARE CRATE","Underground crate."],
+["Rare Crate","Crates",2000000,"🎁","RARE","Rare rewards."],
+["Epic Crate","Crates",5000000,"💜","EPIC","Epic rewards."],
+["Legend Crate","Crates",10000000,"🌟","LEGENDARY","Legendary rewards."],
+
+["1x Vote Key","Keys",250000,"🗝️","SINGLE KEY","One Vote Crate key."],
+["3x Vote Keys","Keys",650000,"🔑","KEY BUNDLE","Three Vote Crate keys."],
+["1x Epic Key","Keys",1000000,"💠","EPIC KEY","One Epic Crate key."],
+["5x Epic Keys","Keys",4000000,"🔐","KEY BUNDLE","Five Epic Crate keys."],
+
+["PvP Kit","Special Items",5000000,"⚔️","COMBAT","Premium combat kit."],
+["Builder Kit","Special Items",3000000,"🧱","BUILDING","Premium building kit."],
+["Special Sword","Special Items",10000000,"🗡️","EXCLUSIVE","Exclusive special sword."],
+["Mystery Bundle","Special Items",15000000,"🎒","MYSTERY","Exclusive mystery bundle."]
+].map((p,i)=>({
+id:"default-"+i,
+name:p[0],
+category:p[1],
+price:p[2],
+icon:p[3],
+tag:p[4],
+description:p[5]
+}));
+
+// ======================================
+// STORAGE
+// ======================================
+
+function readStore(key,fallback){
+try{
+const value=JSON.parse(localStorage.getItem(key));
+return value ?? fallback;
+}catch{
+return fallback;
+}
+}
+
+let products=readStore("sn_products",DEFAULTS);
+if(!Array.isArray(products))products=DEFAULTS;
+products=products.slice(0,MAX_PRODUCTS);
+
+let cart=readStore("sn_cart",[]);
+if(!Array.isArray(cart))cart=[];
+
+let activeCategory="All";
+let editingId=null;
+let lastOrder=null;
+let shopPage=1;
+let adminPage=1;
+
+const $=id=>document.getElementById(id);
+
+const money=n=>"₹"+Number(n).toLocaleString("en-IN",{
+maximumFractionDigits:0
+});
+
+function saveProducts(){
+localStorage.setItem("sn_products",JSON.stringify(products));
+}
+function saveCart(){
+localStorage.setItem("sn_cart",JSON.stringify(cart));
+}
+function safe(s,n=180){
+return String(s??"").trim().slice(0,n);
+}
+
+// ======================================
+// DOWNLOAD HELPERS
+// ======================================
+
+function downloadFile(filename,content,type){
+const blob=new Blob([content],{type});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download=filename;
+document.body.appendChild(a);
+a.click();
+a.remove();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function downloadJSON(filename,data){
+downloadFile(filename,JSON.stringify(data,null,2),"application/json");
+}
+
+function copyText(text){
+if(navigator.clipboard && location.protocol==="https:"){
+navigator.clipboard.writeText(text)
+.then(()=>alert("Copied: "+text))
+.catch(()=>prompt("Copy this:",text));
+}else{
+prompt("Copy this:",text);
+}
+}
+
+// ======================================
+// BLACK MARKET MINECRAFT PRICING
+// ======================================
+
+function getMinecraftPrice(item,category){
+const n=String(item.name||"").toLowerCase();
+
+let material=50000;
+
+if(n.includes("netherite"))material=1500000;
+else if(n.includes("diamond"))material=500000;
+else if(n.includes("gold"))material=150000;
+else if(n.includes("iron"))material=100000;
+else if(n.includes("stone"))material=50000;
+else if(n.includes("wooden"))material=25000;
+
+// Tools
+if(/pickaxe|axe|shovel|hoe/.test(n)){
+return material;
+}
+
+// Weapons
+if(/sword|bow|crossbow|trident|mace/.test(n)){
+return material+500000;
+}
+
+// Armour
+if(/helmet|chestplate|leggings|boots|shield/.test(n)){
+return material+750000;
+}
+
+// Rare materials
+if(n==="diamond")return 100000;
+if(n==="emerald")return 150000;
+if(n==="netherite_ingot")return 1000000;
+if(n==="ancient_debris")return 750000;
+if(n==="iron_ingot")return 50000;
+if(n==="gold_ingot")return 75000;
+
+const prices={
+"Blocks":50000,
+"Ores & Materials":100000,
+"Tools":100000,
+"Weapons":500000,
+"Armor":750000,
+"Food":25000,
+"Farming":30000,
+"Potions":150000,
+"Brewing":100000,
+"Redstone":75000,
+"Transportation":250000,
+"Spawn Eggs":1000000,
+"Mob Drops":50000,
+"Enchanting":300000,
+"Utility":150000,
+"Decoration":50000,
+"Miscellaneous":100000
+};
+
+return prices[category]||100000;
+}
+
+function getMinecraftCategory(name){
+const n=name.toLowerCase();
+
+if(/spawn_egg$/.test(n))return "Spawn Eggs";
+if(/sword|bow|crossbow|trident|mace|arrow/.test(n))return "Weapons";
+if(/helmet|chestplate|leggings|boots|shield|elytra|turtle_helmet/.test(n))return "Armor";
+if(/pickaxe|axe|shovel|hoe|shears|fishing_rod|flint_and_steel|brush/.test(n))return "Tools";
+if(/potion|tipped_arrow|splash_potion|lingering_potion/.test(n))return "Potions";
+if(/redstone|repeater|comparator|observer|piston|lever|button|tripwire|daylight_detector|target|hopper|dispenser|dropper/.test(n))return "Redstone";
+if(/minecart|boat|chest_boat|rail|saddle|firework_rocket/.test(n))return "Transportation";
+if(/wheat|seeds|carrot|potato|beetroot|melon|pumpkin|sugar_cane|cactus|sapling|berry|bamboo/.test(n))return "Farming";
+if(/bread|apple|beef|porkchop|chicken|mutton|rabbit|fish|salmon|cod|stew|soup|cookie|cake|pie|potato|carrot|melon_slice|golden_apple/.test(n))return "Food";
+if(/ingot|nugget|diamond|emerald|lapis|quartz|raw_|coal|copper|amethyst|ancient_debris|netherite|ore$/.test(n))return "Ores & Materials";
+if(/rotten_flesh|bone|string|spider_eye|gunpowder|leather|feather|slime_ball|ender_pearl|blaze_rod|ghast_tear|phantom_membrane|prismarine_shard|scute/.test(n))return "Mob Drops";
+if(/enchanted_book|book|experience_bottle|lapis_lazuli|enchanting_table|anvil/.test(n))return "Enchanting";
+if(/cauldron|bucket|compass|clock|map|name_tag|lead|sponge|totem|bell|beacon|conduit|lodestone|chest|barrel|furnace|crafting_table|smoker|blast_furnace|shulker_box/.test(n))return "Utility";
+if(/stone|dirt|grass_block|sand|gravel|log$|wood$|planks|wool|concrete|terracotta|glass|brick|deepslate|netherrack|end_stone|obsidian|ice|snow|mud|clay|prismarine|coral|leaves|slab|stairs|fence|wall|door|trapdoor/.test(n))return "Blocks";
+if(/flower|tulip|daisy|rose|orchid|banner|painting|candle|lantern|torch|carpet|bed$|sign$|hanging_sign/.test(n))return "Decoration";
+if(/blaze_powder|magma_cream|nether_wart|fermented_spider_eye|glistering_melon|dragon_breath|brewing_stand/.test(n))return "Brewing";
+return "Miscellaneous";
+}
+
+function getMinecraftIcon(category){
+const icons={
+"Blocks":"🧱",
+"Ores & Materials":"💎",
+"Tools":"⛏️",
+"Weapons":"⚔️",
+"Armor":"🛡️",
+"Food":"🍎",
+"Farming":"🌾",
+"Potions":"🧪",
+"Brewing":"⚗️",
+"Redstone":"🔴",
+"Transportation":"🚂",
+"Spawn Eggs":"🥚",
+"Mob Drops":"👾",
+"Enchanting":"📘",
+"Utility":"📦",
+"Decoration":"🌸",
+"Miscellaneous":"🎁"
+};
+return icons[category]||"🎁";
+}
+
+function formatMinecraftName(name){
+return name.split("_").map(word=>
+word.charAt(0).toUpperCase()+word.slice(1)
+).join(" ");
+}
+
+// ======================================
+// UPDATE OLD SAVED PRICES
+// ======================================
+
+if(localStorage.getItem("sn_premium_prices")!=="4"){
+
+const defaultPrices={
+"default-0":50000000,
+"default-1":30000000,
+"default-2":20000000,
+"default-3":15000000,
+"default-4":10000000,
+"default-5":5000000,
+"default-6":2500000,
+"default-7":1000000,
+"default-8":2000000,
+"default-9":5000000,
+"default-10":10000000,
+"default-11":250000,
+"default-12":650000,
+"default-13":1000000,
+"default-14":4000000,
+"default-15":5000000,
+"default-16":3000000,
+"default-17":10000000,
+"default-18":15000000
+};
+
+products=products.map(p=>{
+if(p.minecraftId){
+const name=p.minecraftId.replace("minecraft:","");
+return{
+...p,
+price:getMinecraftPrice({name},p.category)
+};
+}
+if(defaultPrices[p.id]!==undefined){
+return{...p,price:defaultPrices[p.id]};
+}
+return p;
+});
+
+localStorage.setItem("sn_premium_prices","4");
+saveProducts();
+}
+
+// ======================================
+// LOAD MINECRAFT ITEMS
+// ======================================
+
+const MINECRAFT_DATA_URL=
+"https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/1.21.11/items.json";
+
+async function loadMinecraftItems(){
+const status=$("minecraftLoadStatus");
+status.textContent="Loading Minecraft catalogue...";
+
+try{
+const response=await fetch(MINECRAFT_DATA_URL);
+if(!response.ok)throw new Error("Minecraft data file not found.");
+
+const data=await response.json();
+const items=Array.isArray(data)?data:Object.values(data);
+
+const existing=new Set(
+products.map(p=>p.minecraftId).filter(Boolean)
+);
+
+const additions=[];
+
+for(const item of items){
+if(!item||!item.name)continue;
+
+const minecraftId="minecraft:"+item.name;
+if(existing.has(minecraftId))continue;
+
+const category=getMinecraftCategory(item.name);
+
+additions.push({
+id:"mc-"+item.name,
+minecraftId,
+name:formatMinecraftName(item.name),
+category,
+price:getMinecraftPrice(item,category),
+icon:getMinecraftIcon(category),
+tag:"BLACK MARKET ITEM",
+description:"Minecraft item ID: "+minecraftId+". Premium Black Market price."
+});
+
+existing.add(minecraftId);
+}
+
+const available=Math.max(0,MAX_PRODUCTS-products.length);
+const imported=additions.slice(0,available);
+
+products.push(...imported);
+saveProducts();
+buildCategoryControls();
+renderAll();
+
+status.textContent=
+"Minecraft catalogue loaded. Added "+imported.length+
+" items. Total products: "+products.length+".";
+}catch(error){
+status.textContent=
+"Could not load Minecraft catalogue. Check your internet connection. "+error.message;
+}
+}
+
+// ======================================
+// CATEGORY CONTROLS
+// ======================================
+
+function buildCategoryControls(){
+const root=$("categoryButtons");
+root.replaceChildren();
+
+const categories=["All",...CATEGORIES];
+
+categories.forEach(category=>{
+const button=document.createElement("button");
+button.className="cat";
+button.textContent=category==="All"?"🔥 All":category;
+
+if(activeCategory===category)button.classList.add("active");
+
+button.addEventListener("click",()=>{
+activeCategory=category;
+shopPage=1;
+
+root.querySelectorAll(".cat").forEach(b=>
+b.classList.toggle("active",b===button)
+);
+
+renderProducts();
+});
+
+root.appendChild(button);
+});
+
+const select=$("pCategory");
+const previous=select.value;
+select.replaceChildren();
+
+CATEGORIES.forEach(category=>{
+const option=document.createElement("option");
+option.value=category;
+option.textContent=category;
+select.appendChild(option);
+});
+
+if(CATEGORIES.includes(previous))select.value=previous;
+}
+
+// ======================================
+// ADMIN LOGIN
+// ======================================
+
+function isAdmin(){
+return adminMode &&
+sessionStorage.getItem("sn_admin_logged_in")==="true";
+}
+
+function adminLogin(){
+if(!adminMode)return;
+
+const password=$("adminPassword").value;
+
+if(password===ADMIN_PASSWORD){
+sessionStorage.setItem("sn_admin_logged_in","true");
+$("loginMessage").textContent="";
+showAdmin();
+}else{
+$("loginMessage").textContent="❌ Incorrect password!";
+}
+}
+
+function showAdmin(){
+if(!adminMode)return;
+
+if(isAdmin()){
+$("adminLogin").style.display="none";
+$("adminEditor").style.display="block";
+renderAdmin();
+}else{
+$("adminLogin").style.display="block";
+$("adminEditor").style.display="none";
+}
+}
+
+function adminLogout(){
+sessionStorage.removeItem("sn_admin_logged_in");
+$("adminEditor").style.display="none";
+$("adminLogin").style.display="block";
+$("adminPassword").value="";
+$("loginMessage").textContent="";
+}
+
+$("adminPassword").addEventListener("keydown",e=>{
+if(e.key==="Enter")adminLogin();
+});
+
+if(adminMode)showAdmin();
+
+// ======================================
+// SHOP PRODUCTS
+// ======================================
+
+function renderProducts(){
+const query=$("search").value.trim().toLowerCase();
+
+let list=products.filter(p=>
+(activeCategory==="All"||p.category===activeCategory)&&
+[p.name,p.minecraftId,p.category,p.tag,p.description]
+.join(" ").toLowerCase().includes(query)
+);
+
+if($("sort").value==="low")list.sort((a,b)=>Number(a.price)-Number(b.price));
+if($("sort").value==="high")list.sort((a,b)=>Number(b.price)-Number(a.price));
+if($("sort").value==="az")list.sort((a,b)=>a.name.localeCompare(b.name));
+
+const root=$("products");
+root.replaceChildren();
+
+const totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+shopPage=Math.min(shopPage,totalPages);
+
+const start=(shopPage-1)*PAGE_SIZE;
+const pageItems=list.slice(start,start+PAGE_SIZE);
+
+if(!pageItems.length){
+root.innerHTML='<div class="empty">No products found.</div>';
+}else{
+pageItems.forEach(p=>{
+const card=document.createElement("article");
+card.className="card";
+
+const icon=document.createElement("div");
+icon.className="icon";
+icon.textContent=p.icon||"🎁";
+
+const tag=document.createElement("div");
+tag.className="tag";
+tag.textContent=p.tag||p.category;
+
+const title=document.createElement("h3");
+title.textContent=p.name;
+
+const desc=document.createElement("p");
+desc.textContent=p.description||"Black Market store item.";
+
+const bottom=document.createElement("div");
+bottom.className="bottom";
+
+const price=document.createElement("div");
+price.className="price";
+price.textContent=money(p.price);
+
+const button=document.createElement("button");
+button.className="primary";
+button.textContent="ADD TO CART";
+button.type="button";
+button.onclick=()=>addToCart(p.id);
+
+bottom.append(price,button);
+card.append(icon,tag,title,desc,bottom);
+root.appendChild(card);
+});
+}
+
+renderPagination("shopPagination",shopPage,totalPages,page=>{
+shopPage=page;
+renderProducts();
+});
+}
+
+function renderPagination(id,current,total,callback){
+const root=$(id);
+root.replaceChildren();
+
+if(total<=1)return;
+
+const prev=document.createElement("button");
+prev.textContent="← Previous";
+prev.disabled=current<=1;
+prev.onclick=()=>callback(current-1);
+
+const label=document.createElement("span");
+label.textContent="Page "+current+" / "+total;
+
+const next=document.createElement("button");
+next.textContent="Next →";
+next.disabled=current>=total;
+next.onclick=()=>callback(current+1);
+
+root.append(prev,label,next);
+}
+
+$("search").addEventListener("input",()=>{
+shopPage=1;
+renderProducts();
+});
+
+$("sort").addEventListener("change",()=>{
+shopPage=1;
+renderProducts();
+});
+
+// ======================================
+// CART
+// ======================================
+
+function addToCart(id){
+const item=cart.find(p=>p.id===id);
+
+if(item)item.qty=Math.min(99,item.qty+1);
+else cart.push({id,qty:1});
+
+saveCart();
+renderCart();
+}
+
+function cartLines(){
+return cart.map(c=>{
+const p=products.find(p=>p.id===c.id);
+return p?{...p,qty:c.qty,lineTotal:Number(p.price)*c.qty}:null;
+}).filter(Boolean);
+}
+
+function changeQty(id,amount){
+const item=cart.find(p=>p.id===id);
+if(!item)return;
+
+item.qty=Math.max(0,Math.min(99,item.qty+amount));
+cart=cart.filter(p=>p.qty>0);
+
+saveCart();
+renderCart();
+}
+
+function renderCart(){
+const root=$("cartItems");
+root.replaceChildren();
+
+const lines=cartLines();
+const qty=lines.reduce((s,p)=>s+p.qty,0);
+const total=lines.reduce((s,p)=>s+p.lineTotal,0);
+
+$("count").textContent=qty;
+$("total").textContent=money(total);
+$("summary").textContent=qty?
+qty+" item(s) in "+lines.length+" product type(s)":
+"Your cart is empty.";
+
+if(!lines.length){
+root.textContent="Your cart is empty. Add products from the Black Market.";
+return;
+}
+
+lines.forEach(p=>{
+const row=document.createElement("div");
+row.className="cartrow";
+
+const details=document.createElement("div");
+
+const title=document.createElement("strong");
+title.textContent=(p.icon||"🎁")+" "+p.name;
+
+const sub=document.createElement("p");
+sub.textContent=money(p.price)+" each · Subtotal "+money(p.lineTotal);
+
+details.append(title,sub);
+
+const controls=document.createElement("div");
+controls.className="cartbuttons";
+
+const minus=document.createElement("button");
+minus.textContent="−";
+minus.onclick=()=>changeQty(p.id,-1);
+
+const number=document.createElement("span");
+number.textContent=p.qty;
+
+const plus=document.createElement("button");
+plus.textContent="+";
+plus.onclick=()=>changeQty(p.id,1);
+
+const remove=document.createElement("button");
+remove.textContent="Remove";
+remove.onclick=()=>{
+cart=cart.filter(c=>c.id!==p.id);
+saveCart();
+renderCart();
+};
+
+controls.append(minus,number,plus,remove);
+row.append(details,controls);
+root.appendChild(row);
+});
+}
+
+// ======================================
+// ORDER CHECKOUT + TXT RECEIPT
+// ======================================
+
+function checkout(){
+const lines=cartLines();
+const username=$("username").value.trim();
+
+if(!lines.length){
+$("message").textContent="Your cart is empty.";
+return;
+}
+
+if(!/^[A-Za-z0-9_]{3,16}$/.test(username)){
+$("message").textContent=
+"Enter a Minecraft username with 3–16 letters, numbers or underscores.";
+return;
+}
+
+const total=lines.reduce((s,p)=>s+p.lineTotal,0);
+
+const orderId="SN-BM-"+Date.now()+"-"+Math.random().toString(36).slice(2,7).toUpperCase();
+const createdAt=new Date();
+
+lastOrder={
+orderId,
+createdAt:createdAt.toISOString(),
+username,
+server:"stacknetwork.play-mc.fun",
+store:"StackNetwork Black Market",
+currency:"INR",
+items:lines.map(p=>({
+name:p.name,
+minecraftId:p.minecraftId||null,
+category:p.category,
+unitPrice:p.price,
+quantity:p.qty,
+lineTotal:p.lineTotal
+})),
+total,
+status:"PENDING",
+paymentStatus:"UNPAID",
+paymentCollected:false,
+delivered:false
+};
+
+let orders=readStore("sn_orders",[]);
+if(!Array.isArray(orders))orders=[];
+orders.push(lastOrder);
+localStorage.setItem("sn_orders",JSON.stringify(orders));
+
+// Create readable TXT receipt
+let receipt="";
+receipt+="========================================\n";
+receipt+="       STACKNETWORK BLACK MARKET\n";
+receipt+="             ORDER RECEIPT\n";
+receipt+="========================================\n\n";
+receipt+="Order ID: "+lastOrder.orderId+"\n";
+receipt+="Player: "+username+"\n";
+receipt+="Date: "+createdAt.toLocaleString("en-IN")+"\n";
+receipt+="Server: "+lastOrder.server+"\n";
+receipt+="Status: PENDING\n";
+receipt+="Payment: UNPAID\n\n";
+receipt+="----------------------------------------\n";
+receipt+="ITEMS\n";
+receipt+="----------------------------------------\n";
+
+lines.forEach((p,i)=>{
+receipt+=(i+1)+". "+p.name+"\n";
+receipt+="   Category: "+p.category+"\n";
+receipt+="   Price: "+money(p.price)+" x "+p.qty+"\n";
+receipt+="   Subtotal: "+money(p.lineTotal)+"\n\n";
+});
+
+receipt+="----------------------------------------\n";
+receipt+="TOTAL: "+money(total)+"\n";
+receipt+="----------------------------------------\n\n";
+receipt+="IMPORTANT:\n";
+receipt+="This is an order request only.\n";
+receipt+="Payment has not been collected.\n";
+receipt+="No Minecraft items have been delivered.\n";
+receipt+="Contact StackNetwork staff on Discord.\n\n";
+receipt+="Discord: https://discord.gg/7pnknggESA\n";
+receipt+="========================================\n";
+receipt+="       THANK YOU FOR SHOPPING!\n";
+receipt+="========================================\n";
+
+downloadFile(
+lastOrder.orderId+".txt",
+receipt,
+"text/plain;charset=utf-8"
+);
+
+$("message").textContent=
+"Order "+lastOrder.orderId+
+" created! Your TXT receipt is downloading. This is not a paid order.";
+
+cart=[];
+saveCart();
+renderCart();
+}
+
+function exportCart(){
+const lines=cartLines();
+
+downloadJSON("black-market-cart.json",{
+exportedAt:new Date().toISOString(),
+currency:"INR",
+items:lines.map(p=>({
+name:p.name,
+minecraftId:p.minecraftId||null,
+category:p.category,
+price:p.price,
+quantity:p.qty,
+subtotal:p.lineTotal
+})),
+total:lines.reduce((s,p)=>s+p.lineTotal,0)
+});
+}
+
+// ======================================
+// ADMIN PRODUCT EDITOR
+// ======================================
+
+function renderAdmin(){
+if(!isAdmin())return;
+
+$("productCount").textContent=
+"Total Products: "+products.length+" / "+MAX_PRODUCTS;
+
+const root=$("adminList");
+root.replaceChildren();
+
+const query=$("adminSearch").value.trim().toLowerCase();
+
+const list=products.filter(p=>
+[p.name,p.minecraftId,p.category,p.tag,p.description]
+.join(" ").toLowerCase().includes(query)
+);
+
+const totalPages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));
+adminPage=Math.min(adminPage,totalPages);
+
+const start=(adminPage-1)*PAGE_SIZE;
+const pageItems=list.slice(start,start+PAGE_SIZE);
+
+if(!pageItems.length){
+root.textContent="No products found.";
+}
+
+pageItems.forEach(p=>{
+const row=document.createElement("div");
+row.className="adminitem";
+
+const label=document.createElement("strong");
+label.textContent=(p.icon||"🎁")+" "+p.name+" — "+money(p.price);
+
+const actions=document.createElement("div");
+actions.className="cartbuttons";
+
+const edit=document.createElement("button");
+edit.textContent="Edit";
+edit.onclick=()=>editProduct(p.id);
+
+const del=document.createElement("button");
+del.textContent="Delete";
+del.onclick=()=>{
+if(!confirm("Delete "+p.name+"?"))return;
+
+products=products.filter(x=>x.id!==p.id);
+cart=cart.filter(x=>x.id!==p.id);
+
+saveProducts();
+saveCart();
+renderAll();
+};
+
+actions.append(edit,del);
+row.append(label,actions);
+root.appendChild(row);
+});
+
+renderPagination("adminPagination",adminPage,totalPages,page=>{
+adminPage=page;
+renderAdmin();
+});
+}
+
+$("adminSearch").addEventListener("input",()=>{
+adminPage=1;
+renderAdmin();
+});
+
+// ======================================
+// EDIT PRODUCT
+// ======================================
+
+function editProduct(id){
+if(!isAdmin())return;
+
+const p=products.find(x=>x.id===id);
+if(!p)return;
+
+editingId=id;
+
+$("pName").value=p.name;
+$("pCategory").value=p.category;
+$("pPrice").value=p.price;
+$("pIcon").value=p.icon||"";
+$("pTag").value=p.tag||"";
+$("pDesc").value=p.description||"";
+
+$("formTitle").textContent="Edit Product";
+$("saveProduct").textContent="Save Changes";
+
+$("admin").scrollIntoView({behavior:"smooth"});
+}
+
+function cancelEdit(){
+editingId=null;
+$("productForm").reset();
+$("formTitle").textContent="Add a Product";
+$("saveProduct").textContent="Add Product";
+}
+
+// ======================================
+// SAVE PRODUCT
+// ======================================
+
+$("productForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+if(!isAdmin())return;
+
+if(!editingId&&products.length>=MAX_PRODUCTS){
+$("adminMessage").textContent="Maximum product limit reached!";
+return;
+}
+
+const p={
+id:editingId||"custom-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),
+name:safe($("pName").value,60),
+category:$("pCategory").value,
+price:Number($("pPrice").value),
+icon:safe($("pIcon").value,8)||"🎁",
+tag:safe($("pTag").value,40)||$("pCategory").value,
+description:safe($("pDesc").value,180)||"Black Market store item."
+};
+
+if(
+!p.name||
+!CATEGORIES.includes(p.category)||
+!Number.isFinite(p.price)||
+p.price<0||
+p.price>MAX_PRICE
+){
+$("adminMessage").textContent="Please check the product details.";
+return;
+}
+
+if(editingId){
+products=products.map(x=>x.id===editingId?p:x);
+}else{
+products.push(p);
+}
+
+editingId=null;
+$("productForm").reset();
+$("formTitle").textContent="Add a Product";
+$("saveProduct").textContent="Add Product";
+
+saveProducts();
+renderAll();
+
+$("adminMessage").textContent="Product saved successfully!";
+});
+
+// ======================================
+// EXPORT STORE CODE
+// ======================================
+
+function exportProducts(){
+if(!isAdmin())return;
+
+downloadJSON("stacknetwork-black-market-store-code.json",{
+store:"StackNetwork Black Market",
+version:4,
+exportedAt:new Date().toISOString(),
+totalProducts:products.length,
+products
+});
+}
+
+// ======================================
+// IMPORT STORE CODE
+// ======================================
+
+$("importFile").addEventListener("change",async e=>{
+if(!isAdmin())return;
+
+const file=e.target.files[0];
+if(!file)return;
+
+try{
+const data=JSON.parse(await file.text());
+const list=Array.isArray(data)?data:data.products;
+
+if(!Array.isArray(list))throw Error("Invalid Store Code file.");
+if(list.length>MAX_PRODUCTS)throw Error("Maximum 10,000 products allowed.");
+
+if(!list.every(p=>
+p&&
+typeof p.name==="string"&&
+p.name.trim().length>0&&
+CATEGORIES.includes(p.category)&&
+Number.isFinite(Number(p.price))&&
+Number(p.price)>=0&&
+Number(p.price)<=MAX_PRICE
+)){
+throw Error("Invalid product details. Check names, categories and prices.");
+}
+
+if(!confirm(
+"Replace all current products with "+list.length+
+" imported products?"
+))return;
+
+const ids=new Set();
+
+products=list.map((p,i)=>{
+let id=safe(p.id,80)||"import-"+Date.now()+"-"+i;
+
+if(ids.has(id))id="import-"+Date.now()+"-"+i;
+ids.add(id);
+
+return{
+id,
+minecraftId:safe(p.minecraftId,100)||undefined,
+name:safe(p.name,60),
+category:p.category,
+price:Number(p.price),
+icon:safe(p.icon,8)||"🎁",
+tag:safe(p.tag,40)||p.category,
+description:safe(p.description,180)||"Black Market store item."
+};
+});
+
+cart=[];
+saveProducts();
+saveCart();
+renderAll();
+
+$("adminMessage").textContent=
+"Successfully imported "+products.length+" products!";
+
+}catch(err){
+$("adminMessage").textContent="Import failed: "+err.message;
+}finally{
+e.target.value="";
+}
+});
+
+// ======================================
+// RESET PRODUCTS
+// ======================================
+
+function resetProducts(){
+if(!isAdmin())return;
+
+if(!confirm("Reset catalogue to Black Market default products?"))return;
+
+products=JSON.parse(JSON.stringify(DEFAULTS));
+cart=[];
+
+cancelEdit();
+saveProducts();
+saveCart();
+renderAll();
+
+$("adminMessage").textContent="Black Market default products restored.";
+}
+
+// ======================================
+// RENDER EVERYTHING
+// ======================================
+
+function renderAll(){
+renderProducts();
+renderCart();
+if(isAdmin())renderAdmin();
+}
+
+// ======================================
+// START WEBSITE
+// ======================================
+
+$("year").textContent=new Date().getFullYear();
+
+buildCategoryControls();
+renderAll();
+loadMinecraftItems();
+
+</script>
+</body>
+</html>
